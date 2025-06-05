@@ -1,0 +1,55 @@
+body {
+      font-family: sans-serif;
+      text-align: center;
+      padding: 30px;
+      background: #f5f5f5;
+      font-family: 'Prompt', sans-serif;
+    }
+    #card {
+      font-size: 48px;
+      margin: 30px auto;
+      background: white;
+      padding: 30px;
+      width: 200px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+#speedCard {
+      font-size: 48px;
+      margin: 30px auto;
+      background: white;
+      padding: 30px;
+      width: 200px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 18px;
+      border: none;
+      background: #4285f4;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+      margin: 10px;
+    }
+    button:hover {
+      background: #2a68d1;
+    }
+    input[type="number"], input[type="text"] {
+      padding: 8px;
+      font-size: 16px;
+      margin: 5px;
+    }
+    #recallArea {
+      margin-top: 30px;
+      display: none;
+    }
+    #timer {
+      font-size: 20px;
+      margin-top: 10px;
+    }
+    label {
+      display: block;
+      margin: 5px 0;
+}

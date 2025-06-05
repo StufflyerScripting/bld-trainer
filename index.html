@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>BLD Trainer</title>
+  <link href="style.css" rel="stylesheet"\>
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;600;700&display=swap" rel="stylesheet">
+
+</head>
+<body>
+
+  <h1>🧠 3BLD Trainer</h1>
+
+  <label>
+    Number of Letter Pairs:
+    <input type="number" id="pairCount" value="10" min="1" max="30"/>
+  </label>
+  <label>
+    <input type="checkbox" id="noDouble" checked> Avoid double-letter pairs
+  </label>
+  <label>
+    <input type="checkbox" id="parity"> Add parity letter
+  </label>
+  <label>
+    <input type="checkbox" id="showTimer"> Show timer during  
+  </label>
+
+  <button id="startBtn">Start</button>
+  <div id="timer" style="display:none;"></div>
+
+  <div id="card">Waiting...</div>
+  <button id="nextBtn" style="display:none;">Next</button>
+
+  <div id="recallArea">
+    <h3>Recall the letter sequence:</h3>
+    <input type="text" id="recallInput" placeholder="e.g. FU BR TN..." />
+    <button onclick="checkRecall()">Check</button>
+    <p id="result"></p>
+  </div>
+<hr>
+<h3>🧠 Speed Drill Mode</h3>
+<label>Number of pairs:</label>
+<input id="speedCount" type="number" value="10"><br>
+<label>Time per card (ms):</label>
+<input id="speedInterval" type="number" value="1500"><br>
+<label><input type="checkbox" id="speedNoDouble"> Avoid double letters</label><br>
+<label><input type="checkbox" id="speedParity"> Add parity letter</label><br>
+<button onclick="startSpeedDrill()">Start Speed Drill</button>
+
+<div id="speedCard">
+  Waiting...
+</div>
+<div id="speedRecallArea" style="display:none; margin-top: 20px;">
+  <h4>Recall the sequence:</h4>
+  <input type="text" id="speedRecallInput" placeholder="e.g. FU BR TN..." style="width: 80%; font-size: 16px; padding: 10px;" />
+  <br><br>
+  <button id="speedCheckBtn" onclick="checkSpeedRecall()">Check</button>
+  <p id="speedResult"></p>
+</div>
+</div>
+</body>
+<script src="script.js"></script>
+</html>
