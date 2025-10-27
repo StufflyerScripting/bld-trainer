@@ -1,4 +1,31 @@
 const speffz = "ABCDEFGHIJKLMNOPQRSTUVWX".split("");
+
+window.addEventListener("DOMContentLoaded", () => {
+  const container = document.getElementById("letterSelection");
+  speffz.forEach(letter => {
+    const label = document.createElement("label");
+    label.style.display = "flex";
+    label.style.alignItems = "center";
+    label.innerHTML = `
+      <input type="checkbox" class="letterBox" value="${letter}" checked>
+      ${letter}
+    `;
+    container.appendChild(label);
+  });
+});
+
+function getSelectedLetters() {
+  const selected = [];
+  document.querySelectorAll(".letterBox").forEach(cb => {
+    if (cb.checked) selected.push(cb.value);
+  });
+  return selected;
+}
+
+function selectAllLetters(selectAll) {
+  document.querySelectorAll(".letterBox").forEach(cb => cb.checked = selectAll);
+}
+
 let pairs = [];
 let index = 0;
 let timerInterval = null;
