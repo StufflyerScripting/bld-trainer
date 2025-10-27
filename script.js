@@ -48,15 +48,27 @@ const speedDisplay = document.getElementById("speedDisplay");
 
 // Utilities
 function getRandomPair(noDouble) {
+  const available = getSelectedLetters();
+  if (available.length === 0) {
+    alert("Please select at least one letter to train with!");
+    return "--";
+  }
+
   let a, b;
   do {
-    a = speffz[Math.floor(Math.random() * speffz.length)];
-    b = speffz[Math.floor(Math.random() * speffz.length)];
+    a = available[Math.floor(Math.random() * available.length)];
+    b = available[Math.floor(Math.random() * available.length)];
   } while (noDouble && a === b);
   return a + b;
 }
 
 function generatePairs(count, noDouble = false, parity = false) {
+  const available = getSelectedLetters();
+  if (available.length === 0) {
+    alert("Please select at least one letter to train with!");
+    return [];
+  }
+
   const used = new Set();
   const result = [];
 
@@ -204,7 +216,7 @@ function showNextSpeedCard(interval) {
     box.innerText = "Recall!";
     document.getElementById("speedRecallArea").style.display = "block";
     document.getElementById("speedRecallInput").focus();
-    pairs = speedPairs; // optional: reuse for common grading
+    pairs = speedPairs;
     return;
   }
 
