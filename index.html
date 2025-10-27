@@ -27,17 +27,17 @@
   <label>
     <input type="checkbox" id="showTimer"> Show timer during  
   </label>
-  <label>
-    Letter Selection
+  <br>
+  <label style="display:block">
+    <h3>Letter Selection</h3>
     <p>Select which letters to include in training:</p>
-    <div id="letterSelection" style="display:grid; grid-template-columns: repeat(6, 1fr); gap: 5px; max-width:300px;">
+    <div id="letterSelection" 
+         style="display:grid; grid-template-columns: repeat(6, 1fr); gap: 5px; 
+                max-width:300px; margin: 0 auto; text-align:left;">
     </div>
     <button onclick="selectAllLetters(true)">Select All</button>
     <button onclick="selectAllLetters(false)">Clear All</button>
   </label>
-  
-  <hr>
-
   <button id="startBtn">Start</button>
   <div id="timer" style="display:none;"></div>
 
@@ -74,5 +74,6 @@
 </body>
 <script src="script.js"></script>
 </html>
+
 
 
