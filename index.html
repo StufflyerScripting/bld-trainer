@@ -11,7 +11,7 @@
 </head>
 <body>
 
-  <h1>🧠 BLD Trainer</h1>
+  <h1>BLD Trainer</h1>
 
   <label>
     Number of Letter Pairs:
@@ -19,7 +19,7 @@
     <p>~4 = 2BLD, ~10 = 3BLD, ~25 = 4BLD, ~40 = 5BLD</p>
   </label>
   <label>
-    <input type="checkbox" id="noDouble" checked> Avoid double-letter pairs
+    <input type="checkbox" id="noDouble" checked> Avoid double letter pairs
   </label>
   <label>
     <input type="checkbox" id="parity"> Add parity letter
@@ -30,7 +30,7 @@
   <br>
   <label style="display:block">
     <h3>Letter Selection</h3>
-    <p>Select which letters to include in training:</p>
+    <p>Select which letters to include:</p>
     <div id="letterSelection" 
          style="display:grid; grid-template-columns: repeat(6, 1fr); gap: 5px; 
                 max-width:300px; margin: 0 auto; text-align:left;">
@@ -45,14 +45,15 @@
   <button id="nextBtn" style="display:none;">Next</button>
 
   <div id="recallArea">
-    <h3>Recall the letter sequence:</h3>
-    <input type="text" id="recallInput" placeholder="e.g. FU BR TN..." />
+    <h3>Recall the memo:</h3>
+    <input type="text" id="recallInput" placeholder="FU BR TN..." />
     <button onclick="checkRecall()">Check</button>
     <p id="result"></p>
   </div>
 </body>
 <script src="script.js"></script>
 </html>
+
 
 
 
