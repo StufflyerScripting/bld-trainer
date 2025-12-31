@@ -15,11 +15,9 @@ window.addEventListener("DOMContentLoaded", () => {
 });
 
 function getSelectedLetters() {
-  const selected = [];
-  document.querySelectorAll(".letterBox").forEach(cb => {
-    if (cb.checked) selected.push(cb.value);
-  });
-  return selected;
+  return Array.from(document.querySelectorAll(".letterBox"))
+    .filter(cb => cb.checked)
+    .map(cb => cb.value);
 }
 
 function selectAllLetters(selectAll) {
@@ -33,20 +31,22 @@ let startTime = null;
 let finalMemoTime = 0;
 let speedPairs = [];
 let speedIndex = 0;
-let speedTimer;
 
-// DOM elements
-const card = document.getElementById("card");
-const nextBtn = document.getElementById("nextBtn");
-const startBtn = document.getElementById("startBtn");
-const recallArea = document.getElementById("recallArea");
-const recallInput = document.getElementById("recallInput");
-const result = document.getElementById("result");
-const timer = document.getElementById("timer");
-const checkBtn = document.querySelector("button[onclick='checkRecall()']");
-const speedDisplay = document.getElementById("speedDisplay");
+const elements = {
+  card: document.getElementById("card"),
+  nextBtn: document.getElementById("nextBtn"),
+  startBtn: document.getElementById("startBtn"),
+  recallArea: document.getElementById("recallArea"),
+  recallInput: document.getElementById("recallInput"),
+  result: document.getElementById("result"),
+  timer: document.getElementById("timer"),
+  speedDisplay: document.getElementById("speedDisplay"),
+  speedCard: document.getElementById("speedCard"),
+  speedRecallArea: document.getElementById("speedRecallArea"),
+  speedRecallInput: document.getElementById("speedRecallInput"),
+  speedResult: document.getElementById("speedResult")
+};
 
-// Utilities
 function getRandomPair(noDouble) {
   const available = getSelectedLetters();
   if (available.length === 0) {
@@ -59,6 +59,7 @@ function getRandomPair(noDouble) {
     a = available[Math.floor(Math.random() * available.length)];
     b = available[Math.floor(Math.random() * available.length)];
   } while (noDouble && a === b);
+  
   return a + b;
 }
 
@@ -90,15 +91,18 @@ function generatePairs(count, noDouble = false, parity = false) {
 
 function startTimer(show) {
   startTime = Date.now();
+  
   if (!show) {
-    timer.style.display = "none";
+    elements.timer.style.display = "none";
     return;
   }
-  timer.style.display = "block";
-  timer.textContent = "🕒 Time: 0s";
+  
+  elements.timer.style.display = "block";
+  elements.timer.textContent = "🕒 Time: 0s";
+  
   timerInterval = setInterval(() => {
     const elapsed = Math.floor((Date.now() - startTime) / 1000);
-    timer.textContent = `🕒 Time: ${elapsed}s`;
+    elements.timer.textContent = `🕒 Time: ${elapsed}s`;
   }, 500);
 }
 
@@ -107,43 +111,41 @@ function stopTimer() {
   finalMemoTime = Math.floor((Date.now() - startTime) / 1000);
 }
 
-// Main Trainer
-startBtn.addEventListener("click", () => {
+elements.startBtn.addEventListener("click", () => {
   const count = parseInt(document.getElementById("pairCount").value) || 10;
   const noDouble = document.getElementById("noDouble").checked;
   const parity = document.getElementById("parity").checked;
   const show = document.getElementById("showTimer").checked;
 
   pairs = generatePairs(count, noDouble, parity);
-
   index = 0;
-  recallInput.value = "";
-  result.innerHTML = "";
-  recallArea.style.display = "none";
-  nextBtn.style.display = "inline-block";
-  startBtn.style.display = "none";
-  card.textContent = pairs[index];
+  
+  elements.recallInput.value = "";
+  elements.result.innerHTML = "";
+  elements.recallArea.style.display = "none";
+  elements.nextBtn.style.display = "inline-block";
+  elements.startBtn.style.display = "none";
+  elements.card.textContent = pairs[index];
+  
   startTimer(show);
 });
 
-nextBtn.addEventListener("click", () => {
+elements.nextBtn.addEventListener("click", () => {
   index++;
+  
   if (index < pairs.length) {
-    card.textContent = pairs[index];
+    elements.card.textContent = pairs[index];
   } else {
-    card.textContent = "Recall!";
-    nextBtn.style.display = "none";
-    recallArea.style.display = "block";
+    elements.card.textContent = "Recall!";
+    elements.nextBtn.style.display = "none";
+    elements.recallArea.style.display = "block";
     stopTimer();
   }
 });
 
-// Recall checking
 function checkRecall() {
-  const userInput = recallInput.value.trim().toUpperCase().split(/\s+/);
+  const userInput = elements.recallInput.value.trim().toUpperCase().split(/\s+/);
   const feedback = [];
-  const correctPairs = [...pairs];
-
   let correctInPlace = 0;
 
   for (let i = 0; i < userInput.length; i++) {
@@ -153,7 +155,7 @@ function checkRecall() {
     if (userPair === correctPair) {
       feedback.push(`<span style="color:green;">${userPair}</span>`);
       correctInPlace++;
-    } else if (correctPairs.includes(userPair)) {
+    } else if (pairs.includes(userPair)) {
       feedback.push(`<span style="color:orange;">${userPair}</span>`);
     } else {
       feedback.push(`<span style="color:red;">${userPair}</span>`);
@@ -165,11 +167,10 @@ function checkRecall() {
   const solution = `💡 Solution: ${pairs.join(" ")}`;
   const colorGuide = `<small><br><span style="color:green;">Green</span>: correct spot, <span style="color:orange;">Orange</span>: wrong spot, <span style="color:red;">Red</span>: not found</small>`;
 
-  result.innerHTML = `${feedback.join(" ")}<br>${accuracy}<br>${time}<br>${solution}${colorGuide}`;
-  startBtn.style.display = "inline-block";
+  elements.result.innerHTML = `${feedback.join(" ")}<br>${accuracy}<br>${time}<br>${solution}${colorGuide}`;
+  elements.startBtn.style.display = "inline-block";
 }
 
-// Speed Drill Mode
 function startSpeedDrill() {
   const count = parseInt(document.getElementById("speedCount").value);
   const interval = parseInt(document.getElementById("speedInterval").value);
@@ -178,18 +179,18 @@ function startSpeedDrill() {
 
   speedPairs = generatePairs(count, noDouble, parity);
   speedIndex = 0;
-  recallInput.value = "";
-  result.innerHTML = "";
-  document.getElementById("speedCard").innerText = ""
+  
+  elements.recallInput.value = "";
+  elements.result.innerHTML = "";
+  elements.speedCard.innerText = "";
 
   showNextSpeedCard(interval);
 }
 
 function checkSpeedRecall() {
-  const input = document.getElementById("speedRecallInput").value.trim().toUpperCase().split(/\s+/);
-  const resultBox = document.getElementById("speedResult");
-  let correct = 0;
+  const input = elements.speedRecallInput.value.trim().toUpperCase().split(/\s+/);
   const feedback = [];
+  let correct = 0;
 
   for (let i = 0; i < input.length; i++) {
     const guess = input[i];
@@ -206,25 +207,23 @@ function checkSpeedRecall() {
   }
 
   const final = `✅ ${correct} / ${speedPairs.length} correct<br>💡 Solution: ${speedPairs.join(" ")}`;
-  resultBox.innerHTML = `${feedback.join(" ")}<br><br>${final}`;
+  elements.speedResult.innerHTML = `${feedback.join(" ")}<br><br>${final}`;
 }
 
 function showNextSpeedCard(interval) {
-  const box = document.getElementById("speedCard");
-
   if (speedIndex >= speedPairs.length) {
-    box.innerText = "Recall!";
-    document.getElementById("speedRecallArea").style.display = "block";
-    document.getElementById("speedRecallInput").focus();
+    elements.speedCard.innerText = "Recall!";
+    elements.speedRecallArea.style.display = "block";
+    elements.speedRecallInput.focus();
     pairs = speedPairs;
     return;
   }
 
-  box.innerText = speedPairs[speedIndex];
+  elements.speedCard.innerText = speedPairs[speedIndex];
   speedIndex++;
 
   setTimeout(() => {
-    box.innerText = " "; // keep box stable
+    elements.speedCard.innerText = " ";
     setTimeout(() => showNextSpeedCard(interval), 300);
   }, interval);
 }
