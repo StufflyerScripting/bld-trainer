@@ -29,8 +29,6 @@ let index = 0;
 let timerInterval = null;
 let startTime = null;
 let finalMemoTime = 0;
-let speedPairs = [];
-let speedIndex = 0;
 
 const elements = {
   card: document.getElementById("card"),
@@ -39,12 +37,7 @@ const elements = {
   recallArea: document.getElementById("recallArea"),
   recallInput: document.getElementById("recallInput"),
   result: document.getElementById("result"),
-  timer: document.getElementById("timer"),
-  speedDisplay: document.getElementById("speedDisplay"),
-  speedCard: document.getElementById("speedCard"),
-  speedRecallArea: document.getElementById("speedRecallArea"),
-  speedRecallInput: document.getElementById("speedRecallInput"),
-  speedResult: document.getElementById("speedResult")
+  timer: document.getElementById("timer")
 };
 
 function getRandomPair(noDouble) {
@@ -169,61 +162,4 @@ function checkRecall() {
 
   elements.result.innerHTML = `${feedback.join(" ")}<br>${accuracy}<br>${time}<br>${solution}${colorGuide}`;
   elements.startBtn.style.display = "inline-block";
-}
-
-function startSpeedDrill() {
-  const count = parseInt(document.getElementById("speedCount").value);
-  const interval = parseInt(document.getElementById("speedInterval").value);
-  const noDouble = document.getElementById("speedNoDouble").checked;
-  const parity = document.getElementById("speedParity").checked;
-
-  speedPairs = generatePairs(count, noDouble, parity);
-  speedIndex = 0;
-  
-  elements.recallInput.value = "";
-  elements.result.innerHTML = "";
-  elements.speedCard.innerText = "";
-
-  showNextSpeedCard(interval);
-}
-
-function checkSpeedRecall() {
-  const input = elements.speedRecallInput.value.trim().toUpperCase().split(/\s+/);
-  const feedback = [];
-  let correct = 0;
-
-  for (let i = 0; i < input.length; i++) {
-    const guess = input[i];
-    const correctPair = speedPairs[i];
-
-    if (guess === correctPair) {
-      feedback.push(`<span style="color:green;">${guess}</span>`);
-      correct++;
-    } else if (speedPairs.includes(guess)) {
-      feedback.push(`<span style="color:orange;">${guess}</span>`);
-    } else {
-      feedback.push(`<span style="color:red;">${guess}</span>`);
-    }
-  }
-
-  const final = `✅ ${correct} / ${speedPairs.length} correct<br>💡 Solution: ${speedPairs.join(" ")}`;
-  elements.speedResult.innerHTML = `${feedback.join(" ")}<br><br>${final}`;
-}
-
-function showNextSpeedCard(interval) {
-  if (speedIndex >= speedPairs.length) {
-    elements.speedCard.innerText = "Recall!";
-    elements.speedRecallArea.style.display = "block";
-    elements.speedRecallInput.focus();
-    pairs = speedPairs;
-    return;
-  }
-
-  elements.speedCard.innerText = speedPairs[speedIndex];
-  speedIndex++;
-
-  setTimeout(() => {
-    elements.speedCard.innerText = " ";
-    setTimeout(() => showNextSpeedCard(interval), 300);
-  }, interval);
 }
